@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        <img src="http://lorempixel.com/1200/900/abstract/" alt="Loading" id="img">
+
+        <script src="//js.pusher.com/2.2/pusher.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            var pusher = new Pusher('{{ pusher_config['key'] }}');
+            var channel = pusher.subscribe('process');
+            var imageEl = document.getElementById('img');
+            channel.bind('new_image', function(data) {
+                if(data.src) {
+                    imageEl.src = data.src;
+                }
+            });
+        </script>
+{% endblock %}
+
